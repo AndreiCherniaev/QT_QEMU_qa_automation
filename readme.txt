@@ -46,6 +46,7 @@ rsync -rvz -e 'ssh -p 5555' --progress root@localhost:/var/log/ /home/a/QtFromGi
 
 --PUT .pub key on virt--
 ssh-copy-id -p 5555 -i my3qemu.pub root@localhost
+chmod 700 /root/.ssh && chmod 600 /root/.ssh/authorized_keys
 
 --OLD--
 qemu-system-i386 -M pc -kernel buildroot/output/images/bzImage -drive file=buildroot/output/images/rootfs.ext2,if=virtio,format=raw -append "rootwait root=/dev/vda console=tty1 console=ttyS0"  -serial stdio -device e1000,netdev=net0 -netdev user,id=net0,hostfwd=tcp::5555-:22
