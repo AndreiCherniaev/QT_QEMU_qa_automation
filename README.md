@@ -3,4 +3,4 @@
 
 To run 
 
-git clone --recurse-submodules -j8 https://github.com/AndreiCherniaev/qa-automation.git
+git clone --recurse-submodules -j8 https://github.com/AndreiCherniaev/QT_QEMU_qa_automation.git
