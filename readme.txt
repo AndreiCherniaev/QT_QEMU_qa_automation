@@ -1,5 +1,7 @@
 --see https://habr.com/ru/post/520310/ --
 
+git clone --recurse-submodules -j8 https://github.com/AndreiCherniaev/qa-automation.git
+
 cd /home/a/QtFromGit/myb/
 git clone git://git.buildroot.net/buildroot 
 make clean -C buildroot
