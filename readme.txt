@@ -1,6 +1,5 @@
 --see https://habr.com/ru/post/520310/ --
 
-git clone --recurse-submodules -j8 https://github.com/AndreiCherniaev/qa-automation.git
 
 cd /home/a/QtFromGit/myb/
 git clone git://git.buildroot.net/buildroot 
@@ -49,6 +48,11 @@ rsync -rvz -e 'ssh -p 5555' --progress root@localhost:/var/log/ /home/a/QtFromGi
 --PUT .pub key on virt--
 ssh-copy-id -p 5555 -i my3qemu.pub root@localhost
 chmod 700 /root/.ssh && chmod 600 /root/.ssh/authorized_keys
+
+
+--ADD SUBMODULE--
+git clone --recurse-submodules -j8 https://github.com/qt/qt5
+
 
 --OLD--
 qemu-system-i386 -M pc -kernel buildroot/output/images/bzImage -drive file=buildroot/output/images/rootfs.ext2,if=virtio,format=raw -append "rootwait root=/dev/vda console=tty1 console=ttyS0"  -serial stdio -device e1000,netdev=net0 -netdev user,id=net0,hostfwd=tcp::5555-:22
