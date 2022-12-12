@@ -3,8 +3,9 @@ include_guard(GLOBAL)
 
 set(CMAKE_SYSTEM_NAME Linux)
 set(CMAKE_SYSTEM_PROCESSOR i386) #https://gcc.gnu.org/onlinedocs/gcc/x86-Options.html
-#/home/a/Downloads/myGitHub/QT_QEMU_qa_automation
-cmake_path(SET MyBaseDir "please put here FULL PATH to QT_QEMU_qa_automation")
+
+# set MyBaseDir to FULL PATH to QT_QEMU_qa_automation
+cmake_path(SET MyBaseDir /home/a/Downloads/myGitHub/QT_QEMU_qa_automation)
 
 set(TARGET_SYSROOT  ${MyBaseDir}/buildroot/output/host/i586-buildroot-linux-gnu/sysroot/) #/home/a/Downloads/myGitHub/QT_QEMU_qa_automation/build_cross/../buildroot/output/host/i586-buildroot-linux-gnu/sysroot/)
 set(CMAKE_SYSROOT ${TARGET_SYSROOT})

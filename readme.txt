@@ -15,6 +15,9 @@ make -C buildroot
 rm -Rf build_host/ && rm -Rf build_artifacts_host/ rm -Rf build_cross/ rm -Rf build_artifacts_cross/
 mkdir build_host build_artifacts_host build_cross build_artifacts_cross
 
+#now set MyBaseDir to FULL PATH to QT_QEMU_qa_automation
+sed -i "/cmake_path(SET MyBaseDir/c\cmake_path(SET MyBaseDir ${PWD})" toolchain_cross_full2.cmake
+
 git clone https://github.com/qt/qt5 qt5
 cd qt5
 git checkout 6.4.2
@@ -26,14 +29,15 @@ cd ../build_host
 cmake --build . --parallel
 cmake --install .
 
+
 cd ../build_cross/
 #rm -R * #be careful
-../qt5/configure -platform linux-g++-32 -- -GNinja -DCMAKE_BUILD_TYPE=Release -DQT_BUILD_EXAMPLES=OFF -DQT_BUILD_TESTS=OFF -DCMAKE_STAGING_PREFIX=$PWD/../build_artifacts_cross  -DCMAKE_C_COMPILER=$PWD/../buildroot/output/host/bin/i586-buildroot-linux-gnu-gcc -DCMAKE_CXX_COMPILER=$PWD/../buildroot/output/host/bin/i586-buildroot-linux-gnu-g++ -DTARGET_SYSROOT=$PWD/../buildroot/output/host/i586-buildroot-linux-gnu/sysroot/ -DCMAKE_TOOLCHAIN_FILE=../toolchain_cross_full2.cmake
+../qt5/configure -platform linux-g++-32 -- -GNinja -DCMAKE_BUILD_TYPE=Release -DQT_BUILD_EXAMPLES=OFF -DQT_BUILD_TESTS=OFF -DCMAKE_STAGING_PREFIX=${PWD}/../build_artifacts_cross -DCMAKE_TOOLCHAIN_FILE=../toolchain_cross_full2.cmake
 cmake --build . --parallel
 cmake --install .
 
 #back to base (QT_QEMU_qa_automation) folder
-cd..
+cd ..
 
 
 --AUTO--
