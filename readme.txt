@@ -28,7 +28,9 @@ cmake --install .
 
 cd ../build_cross/
 #rm -R * #be careful
-../qt5/configure -platform linux-g++-32 -- -GNinja -DCMAKE_BUILD_TYPE=Release -DQT_BUILD_EXAMPLES=OFF -DQT_BUILD_TESTS=OFF -DCMAKE_STAGING_PREFIX=/home/a/QtFromGit/build_artifacts_cross  -DCMAKE_C_COMPILER=$PWD/../buildroot/output/host/bin/i586-buildroot-linux-gnu-gcc -DCMAKE_CXX_COMPILER=$PWD/../buildroot/output/host/bin/i586-buildroot-linux-gnu-g++ -DTARGET_SYSROOT=$PWD/../buildroot/output/host/i586-buildroot-linux-gnu/sysroot/ -DCMAKE_TOOLCHAIN_FILE=../toolchain_cross_full2.cmake
+../qt5/configure -platform linux-g++-32 -- -GNinja -DCMAKE_BUILD_TYPE=Release -DQT_BUILD_EXAMPLES=OFF -DQT_BUILD_TESTS=OFF -DCMAKE_STAGING_PREFIX=$PWD/../build_artifacts_cross  -DCMAKE_C_COMPILER=$PWD/../buildroot/output/host/bin/i586-buildroot-linux-gnu-gcc -DCMAKE_CXX_COMPILER=$PWD/../buildroot/output/host/bin/i586-buildroot-linux-gnu-g++ -DTARGET_SYSROOT=$PWD/../buildroot/output/host/i586-buildroot-linux-gnu/sysroot/ -DCMAKE_TOOLCHAIN_FILE=../toolchain_cross_full2.cmake
+cmake --build . --parallel
+cmake --install .
 
 #back to base (QT_QEMU_qa_automation) folder
 cd..
@@ -40,9 +42,10 @@ cd..
 --RUN--
 https://wiki.qemu.org/Documentation/Networking#The_legacy_-net_option
 https://fadeevab.com/how-to-setup-qemu-output-to-console-and-automate-using-shell-script/
+#I use -cpu pentium3 to set no-sse2 machine
 
 cd /home/a/QtFromGit/myb/ &&
-qemu-system-i386 -M pc -kernel buildroot/output/images/bzImage -drive file=buildroot/output/images/rootfs.ext2,if=virtio,format=raw -append "rootwait root=/dev/vda console=tty1 console=ttyS0"  -nographic -net nic,model=virtio -net user,hostfwd=tcp::5555-:22 
+qemu-system-i386 -M pc -cpu pentium3 -kernel buildroot/output/images/bzImage -drive file=buildroot/output/images/rootfs.ext2,if=virtio,format=raw -append "rootwait root=/dev/vda console=tty1 console=ttyS0"  -nographic -net nic,model=virtio -net user,hostfwd=tcp::5555-:22 
 
 
 
@@ -83,7 +86,23 @@ git clone --recurse-submodules -j8 https://github.com/qt/qt5
 git rm qtbase
 
 
+--TEST APPS--
+----TEST APP CHECK SSE2----
+rsync -rvz -e 'ssh -p 5555' --progress /home/a/Downloads/myGitHub/QT_QEMU_qa_automation/test_SSE2/build-test_SSE2/test_SSE2 root@localhost:/root/
 
+----TEST APP CHECK QT (fails on Qt 6.4.2 on no-sse2 machine)----
+cd /home/a/Downloads/myGitHub/QT_QEMU_qa_automation/test_qt_helloworld/build-test_qt_helloworld/
+/home/a/Downloads/myGitHub/QT_QEMU_qa_automation/build_artifacts_cross/bin/qt-cmake -S /home/a/Downloads/myGitHub/QT_QEMU_qa_automation/test_qt_helloworld/ -B /home/a/Downloads/myGitHub/QT_QEMU_qa_automation/test_qt_helloworld/build-test_qt_helloworld/ -DCMAKE_BUILD_TYPE=Release
+cmake --build .
+
+rsync -rvz -e 'ssh -p 5555' --progress /home/a/Downloads/myGitHub/QT_QEMU_qa_automation/test_qt_helloworld/build-test_qt_helloworld/test root@localhost:/root/
+
+
+--MODIFY MyBaseDir on toolchain_cross_full2.cmake--
+#this line makes MyBaseDir to /home/a/Downloads/myGitHub/QT_QEMU_qa_automation
+sed -i '/cmake_path(SET MyBaseDir/c\cmake_path(SET MyBaseDir /home/a/Downloads/myGitHub/QT_QEMU_qa_automation)' toolchain_cross_full2.cmake
+#this line makes MyBaseDir to ${PWD}
+sed -i "/cmake_path(SET MyBaseDir/c\cmake_path(SET MyBaseDir ${PWD})" toolchain_cross_full2.cmake
 
 --OLD--
 qemu-system-i386 -M pc -kernel buildroot/output/images/bzImage -drive file=buildroot/output/images/rootfs.ext2,if=virtio,format=raw -append "rootwait root=/dev/vda console=tty1 console=ttyS0"  -serial stdio -device e1000,netdev=net0 -netdev user,id=net0,hostfwd=tcp::5555-:22

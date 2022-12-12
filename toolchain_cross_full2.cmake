@@ -3,23 +3,21 @@ include_guard(GLOBAL)
 
 set(CMAKE_SYSTEM_NAME Linux)
 set(CMAKE_SYSTEM_PROCESSOR i386) #https://gcc.gnu.org/onlinedocs/gcc/x86-Options.html
+#/home/a/Downloads/myGitHub/QT_QEMU_qa_automation
+cmake_path(SET MyBaseDir "please put here FULL PATH to QT_QEMU_qa_automation")
 
-
-#set(TARGET_SYSROOT /home/a/myb/buildroot/output/host/i586-buildroot-linux-gnu/sysroot)
-#set(TARGET_SYSROOT $PWD/../buildroot/output/host/i586-buildroot-linux-gnu/sysroot/)
+set(TARGET_SYSROOT  ${MyBaseDir}/buildroot/output/host/i586-buildroot-linux-gnu/sysroot/) #/home/a/Downloads/myGitHub/QT_QEMU_qa_automation/build_cross/../buildroot/output/host/i586-buildroot-linux-gnu/sysroot/)
 set(CMAKE_SYSROOT ${TARGET_SYSROOT})
-
 
 #set(ENV{PKG_CONFIG_PATH} $PKG_CONFIG_PATH:/usr/lib/x86_64-linux-gnu/pkgconfig)  #set(ENV{PKG_CONFIG_PATH} $PKG_CONFIG_PATH:/usr/lib/pkgconfig) 
 #set(ENV{PKG_CONFIG_LIBDIR} /usr/lib/pkgconfig:/usr/share/pkgconfig/:${TARGET_SYSROOT}/usr/lib/x86_64-linux-gnu/pkgconfig:${TARGET_SYSROOT}/usr/lib/pkgconfig)
 #set(ENV{PKG_CONFIG_SYSROOT_DIR} ${CMAKE_SYSROOT})
 
-#pass by console
-# set(CMAKE_C_COMPILER ../buildroot/output/host/bin/i586-buildroot-linux-gnu-gcc)
-# set(CMAKE_CXX_COMPILER ../buildroot/output/host/bin/i586-buildroot-linux-gnu-g++)
+set(CMAKE_C_COMPILER  ${MyBaseDir}/buildroot/output/host/bin/i586-buildroot-linux-gnu-gcc) 
+set(CMAKE_CXX_COMPILER ${MyBaseDir}/buildroot/output/host/bin/i586-buildroot-linux-gnu-g++)
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I${TARGET_SYSROOT}/usr/include -mno-sse2") #no effect with/without: -mno-sse2
-set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -mno-sse2") #no effect with/without: -mno-sse2
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I${TARGET_SYSROOT}/usr/include") #no effect with/without: -mno-sse2
+set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS}") #no effect with/without: -mno-sse2
 
 
 #set(QT_COMPILER_FLAGS "-march=i386 -mno-sse2 -mfpmath=387")
@@ -35,7 +33,6 @@ set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 set(CMAKE_BUILD_RPATH ${TARGET_SYSROOT})
 
-#from DungeonLords
 #set(CMAKE_GENERATOR "Ninja")
 #can't off this set(FEATURE_pcre2 OFF)
 set(FEATURE_opengl OFF)
@@ -181,11 +178,12 @@ set(FEATURE_proxymodel OFF)
 set(QT_FEATURE_easingcurve OFF)
 #dummy old PC like<<<
 
+
 set(CMAKE_C_FLAGS_INIT "static")
 set(CMAKE_CXX_FLAGS_INIT "static")
 set(CMAKE_BUILD_TYPE "Release")
 #prefix_path_add(PREFIX /usr/lib/x86_64-linux-gnu/cmake GLOB_RECURSE '*.cmake') 
-set(HOST_TOOLSPATH /home/a/Videos/QtFromGit/build_host/qtbase/lib/cmake/) 
+set(HOST_TOOLSPATH ${MyBaseDir}/build_host/qtbase/lib/cmake/) 
 set(Qt6HostInfo_DIR ${HOST_TOOLSPATH}/Qt6HostInfo)
 set(Qt6CoreTools_DIR ${HOST_TOOLSPATH}/Qt6CoreTools)
 #set(md4c_DIR /usr/lib/x86_64-linux-gnu/cmake/md4c)
@@ -196,7 +194,7 @@ set(Qt6GuiTools_DIR ${HOST_TOOLSPATH}/Qt6GuiTools)
 #set(Qt6Widgets_DIR ${HOST_TOOLSPATH}/Qt6Widgets)
 
 #set(Qt6HostInfo_DIR /home/a/QtFromGit/build_host/qtbase/lib/cmake/)
-set(QT_HOST_PATH /home/a/Videos/QtFromGit/build_artifacts_host/bin/)
+set(QT_HOST_PATH ${MyBaseDir}/build_artifacts_host/bin/)
 
 include(CMakeInitializeConfigs)
 

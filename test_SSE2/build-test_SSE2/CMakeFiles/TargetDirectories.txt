@@ -1,8 +1,0 @@
-/home/a/QtFromGit/test_SSE2/build-test_SSE2/CMakeFiles/test_SSE2.dir
-/home/a/QtFromGit/test_SSE2/build-test_SSE2/CMakeFiles/edit_cache.dir
-/home/a/QtFromGit/test_SSE2/build-test_SSE2/CMakeFiles/rebuild_cache.dir
-/home/a/QtFromGit/test_SSE2/build-test_SSE2/CMakeFiles/list_install_components.dir
-/home/a/QtFromGit/test_SSE2/build-test_SSE2/CMakeFiles/install.dir
-/home/a/QtFromGit/test_SSE2/build-test_SSE2/CMakeFiles/install/local.dir
-/home/a/QtFromGit/test_SSE2/build-test_SSE2/CMakeFiles/install/strip.dir
-/home/a/QtFromGit/test_SSE2/build-test_SSE2/CMakeFiles/test_SSE2_autogen.dir
