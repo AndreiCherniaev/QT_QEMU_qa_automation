@@ -2,3 +2,4 @@ build_host/
 build_artifacts_host/
 build_cross/
 build_artifacts_cross/
+qt5/

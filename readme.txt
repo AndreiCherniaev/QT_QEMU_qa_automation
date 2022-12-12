@@ -3,11 +3,28 @@
 
 # cd /home/a/QtFromGit/myb/
 # git clone git://git.buildroot.net/buildroot 
+
+#!check that you are in QT_QEMU_qa_automation/ dir!
+
 make clean -C buildroot
 make BR2_EXTERNAL=$PWD/my_external_tree -C buildroot qemu_x86_ssh_defconfig #baseon qemu_x86_defconfig 
 make -C buildroot
 
+# PREPARE QT
+git clone https://github.com/qt/qt5 qt5
+cd qt5
+git checkout 6.4.2
+perl init-repository –module-subset=qtbase,qtserialport
+cd ../build_host
 
+rm -R * #be careful
+../qt5/configure -release -static -opensource -nomake examples -nomake tests -confirm-license -no-pch -no-xcb -no-xcb-xlib -no-gtk -skip webengine -skip qtwayland -skip qtdoc -skip qtgraphicaleffects -skip qtqa -skip qttranslations -skip qtvirtualkeyboard -skip qtquicktimeline -skip qtquick3d -skip qt3d -skip qtrepotools -skip qttools -skip qtimageformats -skip qtnetworkauth -skip qtwebsockets -skip qtactiveqt -skip qtmacextras -skip winextras -skip qtmultimedia -skip qtgamepad -skip qtserialbus -skip qtspeech -skip qtsensors -skip qtcharts -skip qtlocation -no-ssl -platform linux-g++-32 -prefix ../build_artifacts_host -- -DCMAKE_TOOLCHAIN_FILE=../toolchain_host.cmake
+cmake --build . --parallel
+cmake --install .
+
+cd ../build_cross/
+
+../qt5/configure -platform linux-g++-32 -- -GNinja -DCMAKE_BUILD_TYPE=Release -DQT_BUILD_EXAMPLES=OFF -DQT_BUILD_TESTS=OFF -DCMAKE_STAGING_PREFIX=/home/a/QtFromGit/build_artifacts_cross -DCMAKE_TOOLCHAIN_FILE=../toolchain_cross_full2.cmake -S ../qt5
 --AUTO--
 
 

@@ -12,8 +12,8 @@ set(CMAKE_SYSROOT ${TARGET_SYSROOT})
 #set(ENV{PKG_CONFIG_LIBDIR} /usr/lib/pkgconfig:/usr/share/pkgconfig/:${TARGET_SYSROOT}/usr/lib/x86_64-linux-gnu/pkgconfig:${TARGET_SYSROOT}/usr/lib/pkgconfig)
 #set(ENV{PKG_CONFIG_SYSROOT_DIR} ${CMAKE_SYSROOT})
 
-set(CMAKE_C_COMPILER /home/a/myb/buildroot/output/host/bin/i586-buildroot-linux-gnu-gcc)
-set(CMAKE_CXX_COMPILER /home/a/myb/buildroot/output/host/bin/i586-buildroot-linux-gnu-g++)
+set(CMAKE_C_COMPILER ../buildroot/output/host/bin/i586-buildroot-linux-gnu-gcc)
+set(CMAKE_CXX_COMPILER ../buildroot/output/host/bin/i586-buildroot-linux-gnu-g++)
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I${TARGET_SYSROOT}/usr/include -mno-sse2") #no effect with/without: -mno-sse2
 set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -mno-sse2") #no effect with/without: -mno-sse2
