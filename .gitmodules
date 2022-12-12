@@ -1,3 +1,6 @@
 [submodule "buildroot"]
 	path = buildroot
 	url = https://github.com/buildroot/buildroot.git
+[submodule "qt5"]
+	path = qt5
+	url = https://github.com/qt/qt5
