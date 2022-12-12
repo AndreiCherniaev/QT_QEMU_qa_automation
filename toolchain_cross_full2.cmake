@@ -4,7 +4,9 @@ include_guard(GLOBAL)
 set(CMAKE_SYSTEM_NAME Linux)
 set(CMAKE_SYSTEM_PROCESSOR i386) #https://gcc.gnu.org/onlinedocs/gcc/x86-Options.html
 
-set(TARGET_SYSROOT /home/a/myb/buildroot/output/host/i586-buildroot-linux-gnu/sysroot)
+
+#set(TARGET_SYSROOT /home/a/myb/buildroot/output/host/i586-buildroot-linux-gnu/sysroot)
+#set(TARGET_SYSROOT $PWD/../buildroot/output/host/i586-buildroot-linux-gnu/sysroot/)
 set(CMAKE_SYSROOT ${TARGET_SYSROOT})
 
 

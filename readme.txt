@@ -11,23 +11,29 @@ make BR2_EXTERNAL=$PWD/my_external_tree -C buildroot qemu_x86_ssh_defconfig #bas
 make -C buildroot
 
 # PREPARE QT
+#Qt's folders must be clear: remove and create its again
+rm -Rf build_host/ && rm -Rf build_artifacts_host/ rm -Rf build_cross/ rm -Rf build_artifacts_cross/
+mkdir build_host build_artifacts_host build_cross build_artifacts_cross
+
 git clone https://github.com/qt/qt5 qt5
 cd qt5
 git checkout 6.4.2
 perl init-repository –module-subset=qtbase,qtserialport
 cd ../build_host
 
-rm -R * #be careful
+#rm -R * #be careful
 ../qt5/configure -release -static -opensource -nomake examples -nomake tests -confirm-license -no-pch -no-xcb -no-xcb-xlib -no-gtk -skip webengine -skip qtwayland -skip qtdoc -skip qtgraphicaleffects -skip qtqa -skip qttranslations -skip qtvirtualkeyboard -skip qtquicktimeline -skip qtquick3d -skip qt3d -skip qtrepotools -skip qttools -skip qtimageformats -skip qtnetworkauth -skip qtwebsockets -skip qtactiveqt -skip qtmacextras -skip winextras -skip qtmultimedia -skip qtgamepad -skip qtserialbus -skip qtspeech -skip qtsensors -skip qtcharts -skip qtlocation -no-ssl -platform linux-g++-32 -prefix ../build_artifacts_host -- -DCMAKE_TOOLCHAIN_FILE=../toolchain_host.cmake
 cmake --build . --parallel
 cmake --install .
 
 cd ../build_cross/
+#rm -R * #be careful
+../qt5/configure -platform linux-g++-32 -- -GNinja -DCMAKE_BUILD_TYPE=Release -DQT_BUILD_EXAMPLES=OFF -DQT_BUILD_TESTS=OFF -DCMAKE_STAGING_PREFIX=/home/a/QtFromGit/build_artifacts_cross  -DCMAKE_C_COMPILER=$PWD/../buildroot/output/host/bin/i586-buildroot-linux-gnu-gcc -DCMAKE_CXX_COMPILER=$PWD/../buildroot/output/host/bin/i586-buildroot-linux-gnu-g++ -DTARGET_SYSROOT=$PWD/../buildroot/output/host/i586-buildroot-linux-gnu/sysroot/ -DCMAKE_TOOLCHAIN_FILE=../toolchain_cross_full2.cmake
 
-../qt5/configure -platform linux-g++-32 -- -GNinja -DCMAKE_BUILD_TYPE=Release -DQT_BUILD_EXAMPLES=OFF -DQT_BUILD_TESTS=OFF -DCMAKE_STAGING_PREFIX=/home/a/QtFromGit/build_artifacts_cross -DCMAKE_TOOLCHAIN_FILE=../toolchain_cross_full2.cmake -DCMAKE_C_COMPILER=$PWD/../buildroot/output/host/bin/i586-buildroot-linux-gnu-gcc -DCMAKE_CXX_COMPILER=$PWD/../buildroot/output/host/bin/i586-buildroot-linux-gnu-g++
+#back to base (QT_QEMU_qa_automation) folder
+cd..
 
 
--S ../qt5
 --AUTO--
 
 
@@ -76,8 +82,6 @@ git submodule add --depth 1 https://github.com/qt/qt5
 git clone --recurse-submodules -j8 https://github.com/qt/qt5
 git rm qtbase
 
---PREPARE QT--
-mkdir build_host build_artifacts_host build_cross build_artifacts_cross
 
 
 
