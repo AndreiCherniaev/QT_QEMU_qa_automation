@@ -1,8 +1,8 @@
 --see https://habr.com/ru/post/520310/ --
 
 
-cd /home/a/QtFromGit/myb/
-git clone git://git.buildroot.net/buildroot 
+# cd /home/a/QtFromGit/myb/
+# git clone git://git.buildroot.net/buildroot 
 make clean -C buildroot
 make BR2_EXTERNAL=$PWD/my_external_tree -C buildroot qemu_x86_ssh_defconfig #baseon qemu_x86_defconfig 
 make -C buildroot
