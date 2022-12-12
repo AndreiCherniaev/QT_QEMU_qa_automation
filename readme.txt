@@ -41,7 +41,10 @@ cd ..
 
 rm -Rf test_qt_helloworld/build-test_qt_helloworld/
 mkdir -p test_qt_helloworld/build-test_qt_helloworld
-cd test_qt_helloworld/build-test_qt_helloworld
+
+build_artifacts_cross/bin/qt-cmake -S test_qt_helloworld/ -B test_qt_helloworld/build-test_qt_helloworld/ -DCMAKE_BUILD_TYPE=Release
+cmake --build test_qt_helloworld/build-test_qt_helloworld/ --parallel
+
 
 
 --AUTO--
