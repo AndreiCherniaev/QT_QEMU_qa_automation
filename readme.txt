@@ -55,6 +55,10 @@ git submodule add https://github.com/qt/qt5
 git submodule add --depth 1 https://github.com/qt/qt5
 git clone --recurse-submodules -j8 https://github.com/qt/qt5
 
+--PREPARE QT--
+mkdir build_host build_artifacts_host build_cross build_artifacts_cross
+
+
 
 --OLD--
 qemu-system-i386 -M pc -kernel buildroot/output/images/bzImage -drive file=buildroot/output/images/rootfs.ext2,if=virtio,format=raw -append "rootwait root=/dev/vda console=tty1 console=ttyS0"  -serial stdio -device e1000,netdev=net0 -netdev user,id=net0,hostfwd=tcp::5555-:22
