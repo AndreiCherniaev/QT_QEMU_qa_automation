@@ -1,0 +1,8 @@
+/home/a/Downloads/myGitHub/QT_QEMU_qa_automation/test_qt_helloworld/build-test_qt_helloworld/CMakeFiles/test.dir
+/home/a/Downloads/myGitHub/QT_QEMU_qa_automation/test_qt_helloworld/build-test_qt_helloworld/CMakeFiles/edit_cache.dir
+/home/a/Downloads/myGitHub/QT_QEMU_qa_automation/test_qt_helloworld/build-test_qt_helloworld/CMakeFiles/rebuild_cache.dir
+/home/a/Downloads/myGitHub/QT_QEMU_qa_automation/test_qt_helloworld/build-test_qt_helloworld/CMakeFiles/list_install_components.dir
+/home/a/Downloads/myGitHub/QT_QEMU_qa_automation/test_qt_helloworld/build-test_qt_helloworld/CMakeFiles/install.dir
+/home/a/Downloads/myGitHub/QT_QEMU_qa_automation/test_qt_helloworld/build-test_qt_helloworld/CMakeFiles/install/local.dir
+/home/a/Downloads/myGitHub/QT_QEMU_qa_automation/test_qt_helloworld/build-test_qt_helloworld/CMakeFiles/install/strip.dir
+/home/a/Downloads/myGitHub/QT_QEMU_qa_automation/test_qt_helloworld/build-test_qt_helloworld/CMakeFiles/test_autogen.dir

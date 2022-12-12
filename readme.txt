@@ -39,6 +39,10 @@ cmake --install .
 #back to base (QT_QEMU_qa_automation) folder
 cd ..
 
+rm -Rf test_qt_helloworld/build-test_qt_helloworld/
+mkdir -p test_qt_helloworld/build-test_qt_helloworld
+cd test_qt_helloworld/build-test_qt_helloworld
+
 
 --AUTO--
 
