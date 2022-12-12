@@ -24,7 +24,10 @@ cmake --install .
 
 cd ../build_cross/
 
-../qt5/configure -platform linux-g++-32 -- -GNinja -DCMAKE_BUILD_TYPE=Release -DQT_BUILD_EXAMPLES=OFF -DQT_BUILD_TESTS=OFF -DCMAKE_STAGING_PREFIX=/home/a/QtFromGit/build_artifacts_cross -DCMAKE_TOOLCHAIN_FILE=../toolchain_cross_full2.cmake -S ../qt5
+../qt5/configure -platform linux-g++-32 -- -GNinja -DCMAKE_BUILD_TYPE=Release -DQT_BUILD_EXAMPLES=OFF -DQT_BUILD_TESTS=OFF -DCMAKE_STAGING_PREFIX=/home/a/QtFromGit/build_artifacts_cross -DCMAKE_TOOLCHAIN_FILE=../toolchain_cross_full2.cmake -DCMAKE_C_COMPILER=$PWD/../buildroot/output/host/bin/i586-buildroot-linux-gnu-gcc -DCMAKE_CXX_COMPILER=$PWD/../buildroot/output/host/bin/i586-buildroot-linux-gnu-g++
+
+
+-S ../qt5
 --AUTO--
 
 
