@@ -52,6 +52,7 @@ chmod 700 /root/.ssh && chmod 600 /root/.ssh/authorized_keys
 
 --ADD SUBMODULE--
 git submodule add https://github.com/qt/qt5
+git submodule add --depth 1 https://github.com/qt/qt5
 git clone --recurse-submodules -j8 https://github.com/qt/qt5
 
 
