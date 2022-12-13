@@ -60,7 +60,7 @@ cmake --build test_qt_helloworld/build-test_qt_helloworld/ --parallel
 
 
 # Run qemu. I use -cpu pentium3 to set no-sse2 machine
-#Please use another console for it. Run from MyBaseDir folder
+#Please use Second console for it. Run from MyBaseDir folder
 qemu-system-i386 -M pc -cpu pentium3 -kernel buildroot/output/images/bzImage -drive file=buildroot/output/images/rootfs.ext2,if=virtio,format=raw -append "rootwait root=/dev/vda console=tty1 console=ttyS0"  -nographic -net nic,model=virtio -net user,hostfwd=tcp::5555-:22 
 
 # Upload Qt hello world application to qemu machine to folder /root
