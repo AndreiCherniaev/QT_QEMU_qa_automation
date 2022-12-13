@@ -1,13 +1,14 @@
---see https://habr.com/ru/post/520310/ --
+--more information about qa automation https://habr.com/ru/post/520310/ --
 
-
-# cd /home/a/QtFromGit/myb/
+# This steps use 5555 port for ssh communication. You can replace 5555 to any.
+# this steps use buildroot mirror on github because of fast downloading from github. But you can use 
 # git clone git://git.buildroot.net/buildroot 
+# this steps use Qt mirror on github because of fast downloading from github. But you can use 
+# git clone git://code.qt.io/qt/qt5.git
 
-#!check that you are in dir QT_QEMU_qa_automation/
+# Before start check that you are in dir QT_QEMU_qa_automation/
 
-
-#overwrite ssh "yes"
+# Overwrite ssh "yes"
 mkdir -p my_external_tree/board/my_company/my_board/qemu_ssh_key/ && ssh-keygen -f my_external_tree/board/my_company/my_board/qemu_ssh_key/my_qemu_ssh_key -N "" -C myKeyForQemu <<< $'\ny' >/dev/null 2>&1
 #copy pub key to qemu image
 mkdir -p my_external_tree/board/my_company/my_board/fs-overlay/root/.ssh/ && cat my_external_tree/board/my_company/my_board/qemu_ssh_key/my_qemu_ssh_key.pub >> my_external_tree/board/my_company/my_board/fs-overlay/root/.ssh/authorized_keys
@@ -23,7 +24,7 @@ make -C buildroot
 rm -Rf build_host/ && rm -Rf build_artifacts_host/ rm -Rf build_cross/ rm -Rf build_artifacts_cross/
 mkdir build_host build_artifacts_host build_cross build_artifacts_cross
 
-#now set MyBaseDir to FULL PATH to QT_QEMU_qa_automation
+# Now set MyBaseDir to FULL PATH to QT_QEMU_qa_automation
 sed -i "/cmake_path(SET MyBaseDir/c\cmake_path(SET MyBaseDir ${PWD})" toolchain_cross_full2.cmake
 
 git clone https://github.com/qt/qt5 qt5
@@ -42,10 +43,10 @@ cd ../build_cross/
 cmake --build . --parallel
 cmake --install .
 
-#back to MyBaseDir (QT_QEMU_qa_automation) 
+# Back to MyBaseDir (QT_QEMU_qa_automation) 
 cd ..
 
-#Prepare folder to build test Qt hello world application
+# Prepare folder to build test Qt hello world application
 rm -Rf test_qt_helloworld/build-test_qt_helloworld/
 mkdir -p test_qt_helloworld/build-test_qt_helloworld
 #Build Qt hello world application
@@ -54,17 +55,18 @@ cmake --build test_qt_helloworld/build-test_qt_helloworld/ --parallel
 #Now we have executable file /test_qt_helloworld/build-test_qt_helloworld/test
 
 
-#Run qemu. I use -cpu pentium3 to set no-sse2 machine
+# Run qemu. I use -cpu pentium3 to set no-sse2 machine
 qemu-system-i386 -M pc -cpu pentium3 -kernel buildroot/output/images/bzImage -drive file=buildroot/output/images/rootfs.ext2,if=virtio,format=raw -append "rootwait root=/dev/vda console=tty1 console=ttyS0"  -nographic -net nic,model=virtio -net user,hostfwd=tcp::5555-:22 
 
-#upload Qt hello world application to qemu machine to folder /root
+# Upload Qt hello world application to qemu machine to folder /root
 rsync -rvz -e 'ssh -p 5555 -i my_external_tree/board/my_company/my_board/qemu_ssh_key/my_qemu_ssh_key' --progress test_qt_helloworld/build-test_qt_helloworld/test root@localhost:/root/
 
 #to connect be at MyBaseDir (QT_QEMU_qa_automation/) folder and use
 ssh root@localhost -p 5555 -i my_external_tree/board/my_company/my_board/qemu_ssh_key/my_qemu_ssh_key
 
-#now we can run app
+#Now we can run app on qemu (!) machine (after ssh login)
 ./test
+
 --AUTO--
 
 
@@ -133,12 +135,8 @@ sed -i '/cmake_path(SET MyBaseDir/c\cmake_path(SET MyBaseDir /home/a/Downloads/m
 #this line makes MyBaseDir to ${PWD}
 sed -i "/cmake_path(SET MyBaseDir/c\cmake_path(SET MyBaseDir ${PWD})" toolchain_cross_full2.cmake
 
---OLD--
-qemu-system-i386 -M pc -kernel buildroot/output/images/bzImage -drive file=buildroot/output/images/rootfs.ext2,if=virtio,format=raw -append "rootwait root=/dev/vda console=tty1 console=ttyS0"  -serial stdio -device e1000,netdev=net0 -netdev user,id=net0,hostfwd=tcp::5555-:22
 
-
-
---OLD ALLOW SSH--
+--ALLOW SSH NO-PASSWORD--
 cat << EOF >> t.txt
 PermitRootLogin yes
 PermitEmptyPasswords yes
@@ -147,9 +145,3 @@ EOF
 --OLD--
 #works with two windows
 qemu-system-i386 -M pc -kernel buildroot/output/images/bzImage -drive file=buildroot/output/images/rootfs.ext2,if=virtio,format=raw -append "rootwait root=/dev/vda console=tty1 console=ttyS0" -serial stdio -nographic -net nic,model=virtio -net user,hostfwd=tcp::5555-:22 
-
-
-cd /home/a/QtFromGit/myb/buildroot/output/images/
-exec qemu-system-i386 -M pc -kernel bzImage -drive file=rootfs.ext2,if=virtio,format=raw -append "rootwait root=/dev/vda console=tty1 console=ttyS0"  -serial stdio 
--netdev user,id=net0,hostfwd=tcp::5555-:22
-
