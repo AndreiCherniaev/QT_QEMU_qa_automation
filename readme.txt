@@ -46,7 +46,11 @@ build_artifacts_cross/bin/qt-cmake -S test_qt_helloworld/ -B test_qt_helloworld/
 cmake --build test_qt_helloworld/build-test_qt_helloworld/ --parallel
 
 
+#overwrite ssh "yes"
+ssh-keygen -f my_external_tree/board/my_company/my_board/qemu_ssh_key/my_qemu_ssh_key -N "" -C myKeyForQemu <<< $'\ny' >/dev/null 2>&1
 
+#copy pub key to qemu image
+cat my_external_tree/board/my_company/my_board/qemu_ssh_key/qemu_ssh_key.pub >> my_external_tree/board/my_company/my_board/fs-overlay/root/.ssh/authorized_keys
 --AUTO--
 
 
