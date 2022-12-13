@@ -1,0 +1,52 @@
+
+--OLD--
+--About qemu automation--
+https://wiki.qemu.org/Documentation/Networking#The_legacy_-net_option
+https://fadeevab.com/how-to-setup-qemu-output-to-console-and-automate-using-shell-script/
+
+
+--EXTERNAL TREE--
+cd
+mkdir my_external_tree &&
+cd my_external_tree &&
+touch Config.in external.mk external.desc &&
+mkdir configs package patches -p board/my_company/my_board
+#add overlay to ssh key fs-overlay  mkdir -p board/my_company/my_board/fs-overlay/root/.ssh
+
+
+--TAKE LOGS FROM virt--
+rsync -rvz -e 'ssh -p 5555' --progress root@localhost:/var/log/ /home/a/QtFromGit/myb/logs/
+
+--PUT .pub key on virt--
+ssh-copy-id -p 5555 -i my3qemu.pub root@localhost
+chmod 700 /root/.ssh && chmod 600 /root/.ssh/authorized_keys
+
+
+--ADD GIT SUBMODULE--
+git submodule add https://github.com/qt/qt5
+git submodule add --depth 1 https://github.com/qt/qt5
+git clone --recurse-submodules -j8 https://github.com/qt/qt5
+git rm qtbase
+
+
+--TEST APPS--
+----TEST APP CHECK SSE2----
+rsync -rvz -e 'ssh -p 5555' --progress /home/a/Downloads/myGitHub/QT_QEMU_qa_automation/test_SSE2/build-test_SSE2/test_SSE2 root@localhost:/root/
+
+
+--MODIFY MyBaseDir on toolchain_cross_full2.cmake--
+#this line makes MyBaseDir to /home/a/Downloads/myGitHub/QT_QEMU_qa_automation
+sed -i '/cmake_path(SET MyBaseDir/c\cmake_path(SET MyBaseDir /home/a/Downloads/myGitHub/QT_QEMU_qa_automation)' toolchain_cross_full2.cmake
+#this line makes MyBaseDir to ${PWD}
+sed -i "/cmake_path(SET MyBaseDir/c\cmake_path(SET MyBaseDir ${PWD})" toolchain_cross_full2.cmake
+
+
+--ALLOW SSH NO-PASSWORD--
+cat << EOF >> t.txt
+PermitRootLogin yes
+PermitEmptyPasswords yes
+EOF
+
+
+--Run qemu with two windows--
+qemu-system-i386 -M pc -kernel buildroot/output/images/bzImage -drive file=buildroot/output/images/rootfs.ext2,if=virtio,format=raw -append "rootwait root=/dev/vda console=tty1 console=ttyS0" -serial stdio -nographic -net nic,model=virtio -net user,hostfwd=tcp::5555-:22 
