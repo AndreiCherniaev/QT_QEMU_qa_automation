@@ -1,4 +1,6 @@
---More information about qa automation https://habr.com/ru/post/520310/ --
+# More information about qa automation https://habr.com/ru/post/520310/
+# Please install all packages what your distro needs to run QEMU.
+# Please install all packages what your distro needs to build Qt (see https://wiki.qt.io/Building_Qt_6_from_Git ).
 
 # This steps use 5555 port for ssh communication. If you want, you can replace 5555 to any.
 # this steps use buildroot mirror on github because of fast downloading from github. But you can use 
