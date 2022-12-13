@@ -1,10 +1,10 @@
---more information about qa automation https://habr.com/ru/post/520310/ --
+--More information about qa automation https://habr.com/ru/post/520310/ --
 
-# This steps use 5555 port for ssh communication. You can replace 5555 to any.
+# This steps use 5555 port for ssh communication. If you want, you can replace 5555 to any.
 # this steps use buildroot mirror on github because of fast downloading from github. But you can use 
 # git clone git://git.buildroot.net/buildroot 
 # this steps use Qt mirror on github because of fast downloading from github. But you can use 
-# git clone git://code.qt.io/qt/qt5.git
+# git clone git://code.qt.io/qt/qt5.git qt5
 
 # Before start check that you are in dir QT_QEMU_qa_automation/
 
@@ -14,12 +14,13 @@ mkdir -p my_external_tree/board/my_company/my_board/qemu_ssh_key/ && ssh-keygen 
 mkdir -p my_external_tree/board/my_company/my_board/fs-overlay/root/.ssh/ && cat my_external_tree/board/my_company/my_board/qemu_ssh_key/my_qemu_ssh_key.pub >> my_external_tree/board/my_company/my_board/fs-overlay/root/.ssh/authorized_keys
 
 
+# Make new Linux image
 make clean -C buildroot
 make BR2_EXTERNAL=$PWD/my_external_tree -C buildroot qemu_x86_ssh_defconfig #baseon qemu_x86_defconfig
 make -C buildroot
 
 
-# PREPARE QT
+# Prepare QT
 #Qt's folders must be clear: remove and create its again
 rm -Rf build_host/ && rm -Rf build_artifacts_host/ rm -Rf build_cross/ rm -Rf build_artifacts_cross/
 mkdir build_host build_artifacts_host build_cross build_artifacts_cross
@@ -67,22 +68,12 @@ ssh root@localhost -p 5555 -i my_external_tree/board/my_company/my_board/qemu_ss
 #Now we can run app on qemu (!) machine (after ssh login)
 ./test
 
---AUTO--
 
 
---RUN--
+--OLD--
+--About qemu automation--
 https://wiki.qemu.org/Documentation/Networking#The_legacy_-net_option
 https://fadeevab.com/how-to-setup-qemu-output-to-console-and-automate-using-shell-script/
-#I use -cpu pentium3 to set no-sse2 machine
-
-cd /home/a/QtFromGit/myb/ &&
-qemu-system-i386 -M pc -cpu pentium3 -kernel buildroot/output/images/bzImage -drive file=buildroot/output/images/rootfs.ext2,if=virtio,format=raw -append "rootwait root=/dev/vda console=tty1 console=ttyS0"  -nographic -net nic,model=virtio -net user,hostfwd=tcp::5555-:22 
-
-
-
-
-ssh-keygen -f "/home/a/.ssh/known_hosts" -R "[localhost]:5555" && ssh root@localhost -p 5555
-ssh root@localhost -p 5555
 
 
 --EXTERNAL TREE--
@@ -94,14 +85,6 @@ mkdir configs package patches -p board/my_company/my_board
 #add overlay to ssh key fs-overlay  mkdir -p board/my_company/my_board/fs-overlay/root/.ssh
 
 
-
-
---SSH KEY GENERATION AND DEPLOYING--
-cd ~/QtFromGit/myb/my_external_tree/board/my_company/my_board/fs-overlay/root/.ssh
-ssh-keygen -f qemu_ssh_key -N ""
-rsync -rvz -e 'ssh -p 5555' --progress /home/a/QtFromGit/myb/my_external_tree/board/my_company/my_board/my1_key/qemu_ssh_key.pub root@localhost:/root/.ssh/ #with end slash - to be folder
-
-
 --TAKE LOGS FROM virt--
 rsync -rvz -e 'ssh -p 5555' --progress root@localhost:/var/log/ /home/a/QtFromGit/myb/logs/
 
@@ -110,7 +93,7 @@ ssh-copy-id -p 5555 -i my3qemu.pub root@localhost
 chmod 700 /root/.ssh && chmod 600 /root/.ssh/authorized_keys
 
 
---ADD SUBMODULE--
+--ADD GIT SUBMODULE--
 git submodule add https://github.com/qt/qt5
 git submodule add --depth 1 https://github.com/qt/qt5
 git clone --recurse-submodules -j8 https://github.com/qt/qt5
@@ -120,13 +103,6 @@ git rm qtbase
 --TEST APPS--
 ----TEST APP CHECK SSE2----
 rsync -rvz -e 'ssh -p 5555' --progress /home/a/Downloads/myGitHub/QT_QEMU_qa_automation/test_SSE2/build-test_SSE2/test_SSE2 root@localhost:/root/
-
-----TEST APP CHECK QT (fails on Qt 6.4.2 on no-sse2 machine)----
-cd /home/a/Downloads/myGitHub/QT_QEMU_qa_automation/test_qt_helloworld/build-test_qt_helloworld/
-/home/a/Downloads/myGitHub/QT_QEMU_qa_automation/build_artifacts_cross/bin/qt-cmake -S /home/a/Downloads/myGitHub/QT_QEMU_qa_automation/test_qt_helloworld/ -B /home/a/Downloads/myGitHub/QT_QEMU_qa_automation/test_qt_helloworld/build-test_qt_helloworld/ -DCMAKE_BUILD_TYPE=Release
-cmake --build .
-
-rsync -rvz -e 'ssh -p 5555' --progress /home/a/Downloads/myGitHub/QT_QEMU_qa_automation/test_qt_helloworld/build-test_qt_helloworld/test root@localhost:/root/
 
 
 --MODIFY MyBaseDir on toolchain_cross_full2.cmake--
@@ -142,6 +118,6 @@ PermitRootLogin yes
 PermitEmptyPasswords yes
 EOF
 
---OLD--
-#works with two windows
+
+--Run qemu with two windows--
 qemu-system-i386 -M pc -kernel buildroot/output/images/bzImage -drive file=buildroot/output/images/rootfs.ext2,if=virtio,format=raw -append "rootwait root=/dev/vda console=tty1 console=ttyS0" -serial stdio -nographic -net nic,model=virtio -net user,hostfwd=tcp::5555-:22 
