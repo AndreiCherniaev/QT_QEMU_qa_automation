@@ -50,7 +50,10 @@ cmake --build test_qt_helloworld/build-test_qt_helloworld/ --parallel
 ssh-keygen -f my_external_tree/board/my_company/my_board/qemu_ssh_key/my_qemu_ssh_key -N "" -C myKeyForQemu <<< $'\ny' >/dev/null 2>&1
 
 #copy pub key to qemu image
-cat my_external_tree/board/my_company/my_board/qemu_ssh_key/qemu_ssh_key.pub >> my_external_tree/board/my_company/my_board/fs-overlay/root/.ssh/authorized_keys
+cat my_external_tree/board/my_company/my_board/qemu_ssh_key/my_qemu_ssh_key.pub >> my_external_tree/board/my_company/my_board/fs-overlay/root/.ssh/authorized_keys
+
+#to connect be at QT_QEMU_qa_automation folder and use
+ssh root@localhost -p 5555 -i my_external_tree/board/my_company/my_board/qemu_ssh_key/my_qemu_ssh_key
 --AUTO--
 
 
