@@ -1,5 +1,5 @@
 # qa-automation
-Make buildroot i586 distro, run on QEMU
+Make buildroot i586 distro, run on QEMU. 
 Compiling Qt, cross-compiling Qt, deploy Qthelloworld
 
 To use 
