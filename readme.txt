@@ -9,6 +9,7 @@
 # git clone git://code.qt.io/qt/qt5.git qt5
 
 # Before start check that you are in dir QT_QEMU_qa_automation/
+MyBaseDir=${PWD}
 
 # Overwrite ssh "yes"
 mkdir -p my_external_tree/board/my_company/my_board/qemu_ssh_key/ && ssh-keygen -f my_external_tree/board/my_company/my_board/qemu_ssh_key/my_qemu_ssh_key -N "" -C myKeyForQemu <<< $'\ny' >/dev/null 2>&1
@@ -31,6 +32,7 @@ mkdir build_host build_artifacts_host build_cross build_artifacts_cross
 # cmake dislike ${PWD} or any others relative path
 sed -i "/cmake_path(SET MyBaseDir/c\cmake_path(SET MyBaseDir ${PWD})" toolchain_cross_full2.cmake
 
+#If you want test another Qr version, be at MyBaseDir and do: rm -Rf qt5/
 git clone https://github.com/qt/qt5 qt5
 cd qt5
 git checkout 6.4.2
