@@ -1,7 +1,8 @@
 # qa-automation
-Автоматизация системных тестов Qt на базе QEMU
+Make buildroot i586 distro, run on QEMU. 
+Compiling Qt, cross-compiling Qt, deploy Qthelloworld
 
-To run 
+To use 
 
 git clone --recurse-submodules -j8 https://github.com/AndreiCherniaev/QT_QEMU_qa_automation.git
 
