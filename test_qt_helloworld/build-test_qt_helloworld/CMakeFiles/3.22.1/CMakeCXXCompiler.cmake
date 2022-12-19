@@ -1,7 +1,7 @@
 set(CMAKE_CXX_COMPILER "/home/a/Downloads/myGitHub/QT_QEMU_qa_automation/buildroot/output/host/bin/i586-buildroot-linux-gnu-g++")
 set(CMAKE_CXX_COMPILER_ARG1 "")
 set(CMAKE_CXX_COMPILER_ID "GNU")
-set(CMAKE_CXX_COMPILER_VERSION "11.3.0")
+set(CMAKE_CXX_COMPILER_VERSION "12.2.0")
 set(CMAKE_CXX_COMPILER_VERSION_INTERNAL "")
 set(CMAKE_CXX_COMPILER_WRAPPER "")
 set(CMAKE_CXX_STANDARD_COMPUTED_DEFAULT "17")
@@ -78,7 +78,7 @@ endif()
 
 
 
-set(CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES "/home/a/Downloads/myGitHub/QT_QEMU_qa_automation/buildroot/output/host/i586-buildroot-linux-gnu/include/c++/11.3.0;/home/a/Downloads/myGitHub/QT_QEMU_qa_automation/buildroot/output/host/i586-buildroot-linux-gnu/include/c++/11.3.0/i586-buildroot-linux-gnu;/home/a/Downloads/myGitHub/QT_QEMU_qa_automation/buildroot/output/host/i586-buildroot-linux-gnu/include/c++/11.3.0/backward;/home/a/Downloads/myGitHub/QT_QEMU_qa_automation/buildroot/output/host/lib/gcc/i586-buildroot-linux-gnu/11.3.0/include;/home/a/Downloads/myGitHub/QT_QEMU_qa_automation/buildroot/output/host/lib/gcc/i586-buildroot-linux-gnu/11.3.0/include-fixed;/home/a/Downloads/myGitHub/QT_QEMU_qa_automation/buildroot/output/host/i586-buildroot-linux-gnu/include;/home/a/Downloads/myGitHub/QT_QEMU_qa_automation/buildroot/output/host/i586-buildroot-linux-gnu/sysroot/usr/include")
+set(CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES "/home/a/Downloads/myGitHub/QT_QEMU_qa_automation/buildroot/output/host/i586-buildroot-linux-gnu/include/c++/12.2.0;/home/a/Downloads/myGitHub/QT_QEMU_qa_automation/buildroot/output/host/i586-buildroot-linux-gnu/include/c++/12.2.0/i586-buildroot-linux-gnu;/home/a/Downloads/myGitHub/QT_QEMU_qa_automation/buildroot/output/host/i586-buildroot-linux-gnu/include/c++/12.2.0/backward;/home/a/Downloads/myGitHub/QT_QEMU_qa_automation/buildroot/output/host/lib/gcc/i586-buildroot-linux-gnu/12.2.0/include;/home/a/Downloads/myGitHub/QT_QEMU_qa_automation/buildroot/output/host/lib/gcc/i586-buildroot-linux-gnu/12.2.0/include-fixed;/home/a/Downloads/myGitHub/QT_QEMU_qa_automation/buildroot/output/host/i586-buildroot-linux-gnu/include;/home/a/Downloads/myGitHub/QT_QEMU_qa_automation/buildroot/output/host/i586-buildroot-linux-gnu/sysroot/usr/include")
 set(CMAKE_CXX_IMPLICIT_LINK_LIBRARIES "stdc++;m;gcc_s;gcc;c;gcc_s;gcc")
-set(CMAKE_CXX_IMPLICIT_LINK_DIRECTORIES "/home/a/Downloads/myGitHub/QT_QEMU_qa_automation/buildroot/output/host/lib/gcc/i586-buildroot-linux-gnu/11.3.0;/home/a/Downloads/myGitHub/QT_QEMU_qa_automation/buildroot/output/host/i586-buildroot-linux-gnu/lib;/home/a/Downloads/myGitHub/QT_QEMU_qa_automation/buildroot/output/host/i586-buildroot-linux-gnu/sysroot/lib;/home/a/Downloads/myGitHub/QT_QEMU_qa_automation/buildroot/output/host/i586-buildroot-linux-gnu/sysroot/usr/lib")
+set(CMAKE_CXX_IMPLICIT_LINK_DIRECTORIES "/home/a/Downloads/myGitHub/QT_QEMU_qa_automation/buildroot/output/host/lib/gcc/i586-buildroot-linux-gnu/12.2.0;/home/a/Downloads/myGitHub/QT_QEMU_qa_automation/buildroot/output/host/i586-buildroot-linux-gnu/lib;/home/a/Downloads/myGitHub/QT_QEMU_qa_automation/buildroot/output/host/i586-buildroot-linux-gnu/sysroot/lib;/home/a/Downloads/myGitHub/QT_QEMU_qa_automation/buildroot/output/host/i586-buildroot-linux-gnu/sysroot/usr/lib")
 set(CMAKE_CXX_IMPLICIT_LINK_FRAMEWORK_DIRECTORIES "")

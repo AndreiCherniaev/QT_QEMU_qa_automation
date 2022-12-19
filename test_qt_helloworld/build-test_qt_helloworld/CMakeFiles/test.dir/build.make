@@ -111,6 +111,8 @@ test: CMakeFiles/test.dir/build.make
 test: /home/a/Downloads/myGitHub/QT_QEMU_qa_automation/build_artifacts_cross/lib/libQt6Core.a
 test: /home/a/Downloads/myGitHub/QT_QEMU_qa_automation/buildroot/output/host/i586-buildroot-linux-gnu/sysroot/usr/lib/libz.so
 test: /home/a/Downloads/myGitHub/QT_QEMU_qa_automation/build_artifacts_cross/lib/libQt6BundledPcre2.a
+test: /home/a/Downloads/myGitHub/QT_QEMU_qa_automation/buildroot/output/host/i586-buildroot-linux-gnu/sysroot/usr/lib/libglib-2.0.so
+test: /home/a/Downloads/myGitHub/QT_QEMU_qa_automation/buildroot/output/host/i586-buildroot-linux-gnu/sysroot/usr/lib/libgthread-2.0.so
 test: /home/a/Downloads/myGitHub/QT_QEMU_qa_automation/buildroot/output/host/i586-buildroot-linux-gnu/sysroot/usr/lib/librt.a
 test: CMakeFiles/test.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/a/Downloads/myGitHub/QT_QEMU_qa_automation/test_qt_helloworld/build-test_qt_helloworld/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable test"
