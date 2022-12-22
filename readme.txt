@@ -32,7 +32,7 @@ mkdir build_host build_artifacts_host build_cross build_artifacts_cross
 # cmake dislike ${PWD} or any others relative path
 sed -i "/cmake_path(SET MyBaseDir/c\cmake_path(SET MyBaseDir ${PWD})" toolchain_cross_full2.cmake
 
-#If you want test another Qr version, be at MyBaseDir and do: rm -Rf qt5/
+#If you want test another Qr version, be at MyBaseDir and do: rm -Rf ${MyBaseDir}/qt5/
 git clone https://github.com/qt/qt5 qt5
 cd qt5
 git checkout 6.4.2
