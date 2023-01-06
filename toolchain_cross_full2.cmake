@@ -5,7 +5,7 @@ set(CMAKE_SYSTEM_NAME Linux)
 set(CMAKE_SYSTEM_PROCESSOR i386) #https://gcc.gnu.org/onlinedocs/gcc/x86-Options.html
 
 # set MyBaseDir to FULL PATH to QT_QEMU_qa_automation
-cmake_path(SET MyBaseDir /home/a/Downloads/myGitHub/QT_QEMU_qa_automation)
+cmake_path(SET MyBaseDir "${CMAKE_CURRENT_LIST_DIR}")
 
 set(TARGET_SYSROOT  ${MyBaseDir}/buildroot/output/host/i586-buildroot-linux-gnu/sysroot/) #/home/a/Downloads/myGitHub/QT_QEMU_qa_automation/build_cross/../buildroot/output/host/i586-buildroot-linux-gnu/sysroot/)
 set(CMAKE_SYSROOT ${TARGET_SYSROOT})
