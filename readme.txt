@@ -28,10 +28,6 @@ make -C buildroot
 rm -Rf build_host/ && rm -Rf build_artifacts_host/ rm -Rf build_cross/ rm -Rf build_artifacts_cross/
 mkdir build_host build_artifacts_host build_cross build_artifacts_cross
 
-# Now set MyBaseDir variable from toolchain_cross_full2.cmake to FULL PATH to QT_QEMU_qa_automation
-# cmake dislike ${PWD} or any others relative path
-sed -i "/cmake_path(SET MyBaseDir/c\cmake_path(SET MyBaseDir ${PWD})" toolchain_cross_full2.cmake # cmake_path(SET MyBaseDir "${CMAKE_CURRENT_LIST_DIR}")
-
 #If you want test another Qr version, be at MyBaseDir and do: rm -Rf ${MyBaseDir}/qt5/
 git clone https://github.com/qt/qt5 qt5
 cd qt5
