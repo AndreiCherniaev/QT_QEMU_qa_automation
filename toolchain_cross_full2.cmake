@@ -34,7 +34,7 @@ set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 set(CMAKE_BUILD_RPATH ${TARGET_SYSROOT})
 
-#set(CMAKE_GENERATOR "Ninja")
+#Qt minimal no-signal-slot building
 #can't off this set(FEATURE_pcre2 OFF)
 set(FEATURE_opengl OFF)
 set(FEATURE_ico OFF)
