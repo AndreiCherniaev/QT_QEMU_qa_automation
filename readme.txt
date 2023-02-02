@@ -54,8 +54,7 @@ mkdir -p test_qt_helloworld/build-test_qt_helloworld
 #Build Qt hello world application
 build_artifacts_cross/bin/qt-cmake -S test_qt_helloworld/ -B test_qt_helloworld/build-test_qt_helloworld/ -DCMAKE_BUILD_TYPE=Release
 cmake --build test_qt_helloworld/build-test_qt_helloworld/ --parallel
-#Now we have executable file /test_qt_helloworld/build-test_qt_helloworld/test
-
+#Now we have executable file test_qt_helloworld/build-test_qt_helloworld/test
 
 # Run qemu. I use -cpu pentium3 to set no-sse2 machine
 #Please use Second console for it. Run from MyBaseDir folder
