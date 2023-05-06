@@ -7,15 +7,18 @@ set(CMAKE_SYSTEM_PROCESSOR i386) #https://gcc.gnu.org/onlinedocs/gcc/x86-Options
 # set MyBaseDir to FULL PATH to QT_QEMU_qa_automation
 cmake_path(SET MyBaseDir "${CMAKE_CURRENT_LIST_DIR}")
 
-set(TARGET_SYSROOT  ${MyBaseDir}/buildroot/output/host/i586-buildroot-linux-gnu/sysroot/) #/home/a/Downloads/myGitHub/QT_QEMU_qa_automation/build_cross/../buildroot/output/host/i586-buildroot-linux-gnu/sysroot/)
+cmake_path(SET TARGET_SYSROOT  ${MyBaseDir}/buildroot/output/host/i586-buildroot-linux-gnu/sysroot/ NORMALIZE)
+# set(TARGET_SYSROOT  ${MyBaseDir}/buildroot/output/host/i586-buildroot-linux-gnu/sysroot/) #/home/a/Downloads/myGitHub/QT_QEMU_qa_automation/build_cross/../buildroot/output/host/i586-buildroot-linux-gnu/sysroot/)
 set(CMAKE_SYSROOT ${TARGET_SYSROOT})
 
 #set(ENV{PKG_CONFIG_PATH} $PKG_CONFIG_PATH:/usr/lib/x86_64-linux-gnu/pkgconfig)  #set(ENV{PKG_CONFIG_PATH} $PKG_CONFIG_PATH:/usr/lib/pkgconfig) 
 #set(ENV{PKG_CONFIG_LIBDIR} /usr/lib/pkgconfig:/usr/share/pkgconfig/:${TARGET_SYSROOT}/usr/lib/x86_64-linux-gnu/pkgconfig:${TARGET_SYSROOT}/usr/lib/pkgconfig)
 #set(ENV{PKG_CONFIG_SYSROOT_DIR} ${CMAKE_SYSROOT})
 
-set(CMAKE_C_COMPILER  ${MyBaseDir}/buildroot/output/host/bin/i586-buildroot-linux-gnu-gcc) 
-set(CMAKE_CXX_COMPILER ${MyBaseDir}/buildroot/output/host/bin/i586-buildroot-linux-gnu-g++)
+cmake_path(SET CMAKE_C_COMPILER ${MyBaseDir}/buildroot/output/host/bin/i586-buildroot-linux-gnu-gcc NORMALIZE)
+cmake_path(SET CMAKE_CXX_COMPILER ${MyBaseDir}/buildroot/output/host/bin/i586-buildroot-linux-gnu-g++ NORMALIZE)
+# set(CMAKE_C_COMPILER  ${MyBaseDir}/buildroot/output/host/bin/i586-buildroot-linux-gnu-gcc) 
+# set(CMAKE_CXX_COMPILER ${MyBaseDir}/buildroot/output/host/bin/i586-buildroot-linux-gnu-g++)
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I${TARGET_SYSROOT}/usr/include") #no effect with/without: -mno-sse2
 set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS}") #no effect with/without: -mno-sse2
