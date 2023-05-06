@@ -3,6 +3,8 @@ build_artifacts_host/
 build_cross/
 build_artifacts_cross/
 qt5/
+build-host/
+build-cross/
 test_qt_helloworld/build-test_qt_helloworld/
 my_external_tree/board/my_company/my_board/qemu_ssh_key/my_qemu_ssh_key.pub
 my_external_tree/board/my_company/my_board/qemu_ssh_key/my_qemu_ssh_key
