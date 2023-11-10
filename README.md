@@ -4,7 +4,7 @@ Compiling Qt, cross-compiling Qt, deploy Qthelloworld
 
 To use 
 
-git clone --recurse-submodules -j8 https://github.com/AndreiCherniaev/QT_QEMU_qa_automation.git
+git clone --remote-submodules --recurse-submodules -j8 https://github.com/AndreiCherniaev/QT_QEMU_qa_automation.git
 
 OR
 
