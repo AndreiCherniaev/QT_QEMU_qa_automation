@@ -102,24 +102,26 @@ mkdir -p "$MyQtBaseDir/test_qt_helloworld/build-test_qt_helloworld"
 ```
 Build Qt hello world application
 ```
-"$MyQtBaseDir/build_artifacts_cross/bin/qt-cmake" -S "$MyQtBaseDir/test_qt_helloworld" -B "$MyQtBaseDir/test_qt_helloworld/build-test_qt_helloworld" -DCMAKE_BUILD_TYPE=Release
-cmake --build "$MyQtBaseDir/test_qt_helloworld/build-test_qt_helloworld/" --parallel
+"$MyQtBaseDir/build_artifacts_cross/bin/qt-cmake" -S "$MyBaseDir/test_qt_helloworld" -B "$MyBaseDir/test_qt_helloworld/build-test_qt_helloworld" -DCMAKE_BUILD_TYPE=Release
+cmake --build "$MyBaseDir/test_qt_helloworld/build-test_qt_helloworld/" --parallel
 ```
 Now we have executable file test_qt_helloworld/build-test_qt_helloworld/test and see "qt_helloworld"
 
 ## Run QEMU
 I use -cpu pentium3 to set no-sse2 machine. Please use Second console for it. Run from MyQtBaseDir folder
 ```
-qemu-system-i386 -M pc -cpu pentium3 -kernel "$MyQtBaseDir/buildroot/output/images/bzImage" -drive file="$MyQtBaseDir/buildroot/output/images/rootfs.ext2",if=virtio,format=raw -append "rootwait root=/dev/vda console=tty1 console=ttyS0"  -nographic -net nic,model=virtio -net user,hostfwd=tcp::5555-:22
+qemu-system-i386 -M pc -cpu pentium3 -kernel "$MyBaseDir/buildroot/output/images/bzImage" -drive file="$MyBaseDir/buildroot/output/images/rootfs.ext2",if=virtio,format=raw -append "rootwait root=/dev/vda console=tty1 console=ttyS0"  -nographic -net nic,model=virtio -net user,hostfwd=tcp::5555-:22
 ```
 
 ## Upload Qt hello world 
 to qemu machine to folder /root
 ```
-rsync -rvz -e 'ssh -p 5555 -i my_external_tree/board/my_company/my_board/qemu_ssh_key/my_qemu_ssh_key' --progress test_qt_helloworld/build-test_qt_helloworld/test root@localhost:/root/
+x
+options=(-rvz -e "ssh -p 5555 -i "$MyBaseDir//home/a/Downloads/myGitHub/QT_QEMU_qa_automation/my_external_tree/board/my_company/my_board/qemu_ssh_key/my_qemu_ssh_key" -o StrictHostKeyChecking=no" --progress)
+rsync "${options[@]}" "$MyBaseDir/test_qt_helloworld/build-test_qt_helloworld/test" root@localhost:/root/
 ```
 
-To connect be at MyQtBaseDir (QT_QEMU_qa_automation/) folder and use
+To connect be at MyBaseDir (QT_QEMU_qa_automation/) folder and use
 ```
 ssh root@localhost -p 5555 -i my_external_tree/board/my_company/my_board/qemu_ssh_key/my_qemu_ssh_key
 ```
