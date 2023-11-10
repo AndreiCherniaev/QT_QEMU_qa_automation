@@ -35,19 +35,19 @@ cd ~ && cd "$MyBaseDir"
 ## Make ssh key
 This code Overwrite ssh with "yes"
 ```
-mkdir -p "$MyBaseDir/my_external_tree/board/my_company/my_board/qemu_ssh_key" && ssh-keygen -f "$MyBaseDir/my_external_tree/board/my_company/my_board/qemu_ssh_key/my_qemu_ssh_key" -N "" -C myKeyForQemu <<< $'\ny' >/dev/null 2>&1
+mkdir -p "$MyBaseDir/myBuildroot/my_external_tree/board/my_company/my_board/qemu_ssh_key" && ssh-keygen -f "$MyBaseDir/my_external_tree/board/my_company/my_board/qemu_ssh_key/my_qemu_ssh_key" -N "" -C myKeyForQemu <<< $'\ny' >/dev/null 2>&1
 ```
 Copy pub key to QEMU image
 ```
-mkdir -p "$MyBaseDir/my_external_tree/board/my_company/my_board/fs-overlay/root/.ssh" && cat "$MyBaseDir/my_external_tree/board/my_company/my_board/qemu_ssh_key/my_qemu_ssh_key.pub" >> "$MyBaseDir/my_external_tree/board/my_company/my_board/fs-overlay/root/.ssh/authorized_keys"
+mkdir -p "$MyBaseDir/myBuildroot/my_external_tree/board/my_company/my_board/fs-overlay/root/.ssh" && cat "$MyBaseDir/my_external_tree/board/my_company/my_board/qemu_ssh_key/my_qemu_ssh_key.pub" >> "$MyBaseDir/my_external_tree/board/my_company/my_board/fs-overlay/root/.ssh/authorized_keys"
 ```
 
 ## Make new Linux image
 My config qemu_x86_ssh_defconfig is based on standart buildroot's config [qemu_x86_defconfig](https://github.com/buildroot/buildroot/blob/c0799123742eb9b60ca109c0ea0cb1728c22bf0a/configs/qemu_x86_defconfig)
 ```
-make clean -C "$MyBaseDir/buildroot"
-make BR2_EXTERNAL="$MyBaseDir/my_external_tree" -C "$MyBaseDir/buildroot" qemu_x86_ssh_defconfig
-make -C "$MyBaseDir/buildroot"
+make clean -C "$MyBaseDir/myBuildroot/buildroot"
+make BR2_EXTERNAL="$MyBaseDir/myBuildroot/my_external_tree" -C "$MyBaseDir/myBuildroot/buildroot" qemu_x86_ssh_defconfig
+make -C "$MyBaseDir/myBuildroot/buildroot"
 ```
 
 ## Prepare Qt
@@ -102,10 +102,10 @@ mkdir -p "$MyQtBaseDir/test_qt_helloworld/build-test_qt_helloworld"
 ```
 Build Qt hello world application
 ```
-"$MyQtBaseDir/build_artifacts_cross/bin/qt-cmake" -S "$MyBaseDir/test_qt_helloworld" -B "$MyBaseDir/test_qt_helloworld/build-test_qt_helloworld" -DCMAKE_BUILD_TYPE=Release
-cmake --build "$MyBaseDir/test_qt_helloworld/build-test_qt_helloworld/" --parallel
+"$MyQtBaseDir/build_artifacts_cross/bin/qt-cmake" -S "$MyBaseDir/progs/test_qt_helloworld" -B "$MyBaseDir/progs/test_qt_helloworld/build-test_qt_helloworld" -DCMAKE_BUILD_TYPE=Release
+cmake --build "$MyBaseDir/progs/test_qt_helloworld/build-test_qt_helloworld/" --parallel
 ```
-Now we have executable file test_qt_helloworld/build-test_qt_helloworld/test and see "qt_helloworld"
+Now we have executable file progs/test_qt_helloworld/build-test_qt_helloworld/test and see "qt_helloworld"
 
 ## Run QEMU
 I use -cpu pentium3 to set no-sse2 machine. Please use Second console for it. Run from MyQtBaseDir folder
@@ -116,14 +116,13 @@ qemu-system-i386 -M pc -cpu pentium3 -kernel "$MyBaseDir/buildroot/output/images
 ## Upload Qt hello world 
 to qemu machine to folder /root
 ```
-x
-options=(-rvz -e "ssh -p 5555 -i "$MyBaseDir//home/a/Downloads/myGitHub/QT_QEMU_qa_automation/my_external_tree/board/my_company/my_board/qemu_ssh_key/my_qemu_ssh_key" -o StrictHostKeyChecking=no" --progress)
-rsync "${options[@]}" "$MyBaseDir/test_qt_helloworld/build-test_qt_helloworld/test" root@localhost:/root/
+options=(-rvz -e "ssh -p 5555 -i "$MyBaseDir/my_external_tree/board/my_company/my_board/qemu_ssh_key/my_qemu_ssh_key" -o StrictHostKeyChecking=no" --progress)
+rsync "${options[@]}" "$MyBaseDir/progs/test_qt_helloworld/build-test_qt_helloworld/test" root@localhost:/root/
 ```
 
 To connect be at MyBaseDir (QT_QEMU_qa_automation/) folder and use
 ```
-ssh root@localhost -p 5555 -i my_external_tree/board/my_company/my_board/qemu_ssh_key/my_qemu_ssh_key
+ssh root@localhost -p 5555 -i "$MyBaseDir/my_external_tree/board/my_company/my_board/qemu_ssh_key/my_qemu_ssh_key"
 ```
 
 Now we can run app on qemu (!) machine (after ssh login)
