@@ -51,6 +51,11 @@ make -C "$MyBaseDir/buildroot"
 ```
 
 ## Prepare Qt
+Qt themself located in his folder
+```
+cd "$MyQtBaseDir"
+```
+
 Qt's folders must be clear: remove and create its again
 ```
 rm -Rf ${MyQtBaseDir}/build_host/ ${MyQtBaseDir}/build_artifacts_host/ && mkdir ${MyQtBaseDir}/build_host ${MyQtBaseDir}/build_artifacts_host
