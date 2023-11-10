@@ -10,7 +10,7 @@ Or several-steps way
 ```
 git clone  https://github.com/AndreiCherniaev/QT_QEMU_qa_automation.git
 cd QT_QEMU_qa_automation/
-git submodule update --init
+git submodule update --remote --merge
 ```
 
 ## Warnings
@@ -19,6 +19,10 @@ Please [install](https://habr.com/ru/articles/735754/) all packages what your di
 Please install all packages what your distro needs to build Qt (see https://wiki.qt.io/Building_Qt_6_from_Git ).  
 This steps use 5555 port for ssh communication. If you want, you can replace 5555 to any.  
 This steps use buildroot mirror on github because of fast downloading from github. But you can use `git clone git://git.buildroot.net/buildroot`  
+Buildroot is submodule which is added this way
+```
+git submodule add -b master https://github.com/buildroot/buildroot
+```
 This steps use Qt mirror on github because of fast downloading from github. But you can use `git clone git://code.qt.io/qt/qt5.git qt5`  
 
 ## Before start
@@ -35,11 +39,11 @@ cd ~ && cd "$MyBaseDir"
 ## Make ssh key
 This code Overwrite ssh with "yes"
 ```
-mkdir -p "$MyBaseDir/myBuildroot/my_external_tree/board/my_company/my_board/qemu_ssh_key" && ssh-keygen -f "$MyBaseDir/my_external_tree/board/my_company/my_board/qemu_ssh_key/my_qemu_ssh_key" -N "" -C myKeyForQemu <<< $'\ny' >/dev/null 2>&1
+mkdir -p "$MyBaseDir/myBuildroot/my_external_tree/board/my_company/my_board/qemu_ssh_key" && ssh-keygen -f "$MyBaseDir/myBuildroot/my_external_tree/board/my_company/my_board/qemu_ssh_key/my_qemu_ssh_key" -N "" -C myKeyForQemu <<< $'\ny' >/dev/null 2>&1
 ```
 Copy pub key to QEMU image
 ```
-mkdir -p "$MyBaseDir/myBuildroot/my_external_tree/board/my_company/my_board/fs-overlay/root/.ssh" && cat "$MyBaseDir/my_external_tree/board/my_company/my_board/qemu_ssh_key/my_qemu_ssh_key.pub" >> "$MyBaseDir/my_external_tree/board/my_company/my_board/fs-overlay/root/.ssh/authorized_keys"
+mkdir -p "$MyBaseDir/myBuildroot/my_external_tree/board/my_company/my_board/fs-overlay/root/.ssh" && cat "$MyBaseDir/myBuildroot/my_external_tree/board/my_company/my_board/qemu_ssh_key/my_qemu_ssh_key.pub" >> "$MyBaseDir/myBuildroot/my_external_tree/board/my_company/my_board/fs-overlay/root/.ssh/authorized_keys"
 ```
 
 ## Make new Linux image
