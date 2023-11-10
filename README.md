@@ -30,16 +30,19 @@ MyQtBaseDir=${PWD}
 ## Make ssh key
 This code Overwrite ssh with "yes"
 ```
-mkdir -p my_external_tree/board/my_company/my_board/qemu_ssh_key/ && ssh-keygen -f my_external_tree/board/my_company/my_board/qemu_ssh_key/my_qemu_ssh_key -N "" -C myKeyForQemu <<< $'\ny' >/dev/null 2>&1
-#copy pub key to qemu image
-mkdir -p my_external_tree/board/my_company/my_board/fs-overlay/root/.ssh/ && cat my_external_tree/board/my_company/my_board/qemu_ssh_key/my_qemu_ssh_key.pub >> my_external_tree/board/my_company/my_board/fs-overlay/root/.ssh/authorized_keys
+mkdir -p "$MyQtBaseDir/my_external_tree/board/my_company/my_board/qemu_ssh_key" && ssh-keygen -f "$MyQtBaseDir/my_external_tree/board/my_company/my_board/qemu_ssh_key/my_qemu_ssh_key" -N "" -C myKeyForQemu <<< $'\ny' >/dev/null 2>&1
+```
+Copy pub key to QEMU image
+```
+mkdir -p "$MyQtBaseDir/my_external_tree/board/my_company/my_board/fs-overlay/root/.ssh" && cat "$MyQtBaseDir/my_external_tree/board/my_company/my_board/qemu_ssh_key/my_qemu_ssh_key.pub" >> "$MyQtBaseDir/my_external_tree/board/my_company/my_board/fs-overlay/root/.ssh/authorized_keys"
 ```
 
 ## Make new Linux image
+My config qemu_x86_ssh_defconfig is based on standart buildroot's config [qemu_x86_defconfig](https://github.com/buildroot/buildroot/blob/c0799123742eb9b60ca109c0ea0cb1728c22bf0a/configs/qemu_x86_defconfig)
 ```
-make clean -C buildroot
-make BR2_EXTERNAL=$PWD/my_external_tree -C buildroot qemu_x86_ssh_defconfig #baseon qemu_x86_defconfig
-make -C buildroot
+make clean -C "$MyQtBaseDir/buildroot"
+make BR2_EXTERNAL="$MyQtBaseDir/my_external_tree" -C "$MyQtBaseDir/buildroot" qemu_x86_ssh_defconfig
+make -C "$MyQtBaseDir/buildroot"
 ```
 
 ## Prepare Qt
@@ -65,7 +68,7 @@ Let's configure Qt for for host (laptop)
 ```
 cd ${MyQtBaseDir}/build_host
 ../qt5/configure -release -static -opensource -nomake examples -nomake tests -confirm-license -no-pch -no-xcb -no-xcb-xlib -no-gtk -skip webengine -skip qtwayland -skip qtdoc -skip qtgraphicaleffects -skip qtqa -skip qttranslations -skip qtvirtualkeyboard -skip qtquicktimeline -skip qtquick3d -skip qt3d -skip qtrepotools -skip qttools -skip qtimageformats -skip qtnetworkauth -skip qtwebsockets -skip qtactiveqt -skip qtmacextras -skip winextras -skip qtmultimedia -skip qtgamepad -skip qtserialbus -skip qtspeech -skip qtsensors -skip qtcharts -skip qtlocation -no-ssl -platform linux-g++-32 -prefix ../build_artifacts_host -- -DCMAKE_TOOLCHAIN_FILE=../toolchain_host.cmake
-cmake --build . --parallel
+cmake --build . --parallel &&
 cmake --install .
 ```
 
@@ -73,27 +76,31 @@ Let's configure Qt for for target (on-board computer)
 ```
 cd ${MyQtBaseDir}/build_cross/
 ../qt5/configure -platform linux-g++-32 -- -GNinja -DCMAKE_BUILD_TYPE=Release -DQT_BUILD_EXAMPLES=OFF -DQT_BUILD_TESTS=OFF -DCMAKE_STAGING_PREFIX=${PWD}/../build_artifacts_cross -DCMAKE_TOOLCHAIN_FILE=../toolchain_cross.cmake
-cmake --build . --parallel
+cmake --build . --parallel &&
 cmake --install .
 ```
 
-Back to MyQtBaseDir (QT_QEMU_qa_automation) 
-cd ..
+Back to MyQtBaseDir (QT_QEMU_qa_automation)
+```
+cd ${MyQtBaseDir}
+```
 
 Prepare folder to build test Qt hello world application
 ```
-rm -Rf test_qt_helloworld/build-test_qt_helloworld/
-mkdir -p test_qt_helloworld/build-test_qt_helloworld
-#Build Qt hello world application
-build_artifacts_cross/bin/qt-cmake -S test_qt_helloworld/ -B test_qt_helloworld/build-test_qt_helloworld/ -DCMAKE_BUILD_TYPE=Release
-cmake --build test_qt_helloworld/build-test_qt_helloworld/ --parallel
-#Now we have executable file test_qt_helloworld/build-test_qt_helloworld/test and see "qt_helloworld"
+rm -Rf "$MyQtBaseDir/test_qt_helloworld/build-test_qt_helloworld/"
+mkdir -p "$MyQtBaseDir/test_qt_helloworld/build-test_qt_helloworld"
 ```
+Build Qt hello world application
+```
+"$MyQtBaseDir/build_artifacts_cross/bin/qt-cmake" -S "$MyQtBaseDir/test_qt_helloworld" -B "$MyQtBaseDir/test_qt_helloworld/build-test_qt_helloworld" -DCMAKE_BUILD_TYPE=Release
+cmake --build "$MyQtBaseDir/test_qt_helloworld/build-test_qt_helloworld/" --parallel
+```
+Now we have executable file test_qt_helloworld/build-test_qt_helloworld/test and see "qt_helloworld"
 
 ## Run QEMU
 I use -cpu pentium3 to set no-sse2 machine. Please use Second console for it. Run from MyQtBaseDir folder
 ```
-qemu-system-i386 -M pc -cpu pentium3 -kernel buildroot/output/images/bzImage -drive file=buildroot/output/images/rootfs.ext2,if=virtio,format=raw -append "rootwait root=/dev/vda console=tty1 console=ttyS0"  -nographic -net nic,model=virtio -net user,hostfwd=tcp::5555-:22
+qemu-system-i386 -M pc -cpu pentium3 -kernel "$MyQtBaseDir/buildroot/output/images/bzImage" -drive file="$MyQtBaseDir/buildroot/output/images/rootfs.ext2",if=virtio,format=raw -append "rootwait root=/dev/vda console=tty1 console=ttyS0"  -nographic -net nic,model=virtio -net user,hostfwd=tcp::5555-:22
 ```
 
 ## Upload Qt hello world 
