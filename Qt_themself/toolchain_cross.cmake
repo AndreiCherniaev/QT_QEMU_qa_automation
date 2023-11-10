@@ -4,21 +4,23 @@ include_guard(GLOBAL)
 set(CMAKE_SYSTEM_NAME Linux)
 set(CMAKE_SYSTEM_PROCESSOR i386) #https://gcc.gnu.org/onlinedocs/gcc/x86-Options.html
 
-# set MyBaseDir to FULL PATH to QT_QEMU_qa_automation
+# set MyBaseDir to FULL PATH to QT_QEMU_qa_automation/Qt_themself/
 cmake_path(SET MyBaseDir "${CMAKE_CURRENT_LIST_DIR}")
 
-cmake_path(SET TARGET_SYSROOT  ${MyBaseDir}/buildroot/output/host/i586-buildroot-linux-gnu/sysroot/ NORMALIZE)
-# set(TARGET_SYSROOT  ${MyBaseDir}/buildroot/output/host/i586-buildroot-linux-gnu/sysroot/) #/home/a/Downloads/myGitHub/QT_QEMU_qa_automation/build_cross/../buildroot/output/host/i586-buildroot-linux-gnu/sysroot/)
+cmake_path(SET TARGET_SYSROOT  ${MyBaseDir}/../myBuildroot/buildroot/output/host/i586-buildroot-linux-gnu/sysroot/ NORMALIZE)
+
+
 set(CMAKE_SYSROOT ${TARGET_SYSROOT})
 
 #set(ENV{PKG_CONFIG_PATH} $PKG_CONFIG_PATH:/usr/lib/x86_64-linux-gnu/pkgconfig)  #set(ENV{PKG_CONFIG_PATH} $PKG_CONFIG_PATH:/usr/lib/pkgconfig) 
 #set(ENV{PKG_CONFIG_LIBDIR} /usr/lib/pkgconfig:/usr/share/pkgconfig/:${TARGET_SYSROOT}/usr/lib/x86_64-linux-gnu/pkgconfig:${TARGET_SYSROOT}/usr/lib/pkgconfig)
 #set(ENV{PKG_CONFIG_SYSROOT_DIR} ${CMAKE_SYSROOT})
 
-cmake_path(SET CMAKE_C_COMPILER ${MyBaseDir}/buildroot/output/host/bin/i586-buildroot-linux-gnu-gcc NORMALIZE)
-cmake_path(SET CMAKE_CXX_COMPILER ${MyBaseDir}/buildroot/output/host/bin/i586-buildroot-linux-gnu-g++ NORMALIZE)
-# set(CMAKE_C_COMPILER  ${MyBaseDir}/buildroot/output/host/bin/i586-buildroot-linux-gnu-gcc) 
-# set(CMAKE_CXX_COMPILER ${MyBaseDir}/buildroot/output/host/bin/i586-buildroot-linux-gnu-g++)
+cmake_path(SET CMAKE_C_COMPILER ${MyBaseDir}/../myBuildroot/buildroot/output/host/bin/i586-buildroot-linux-gnu-gcc NORMALIZE)
+# set(CMAKE_C_COMPILER  ${MyBaseDir}/../myBuildroot/buildroot/output/host/bin/i586-buildroot-linux-gnu-gcc)
+
+cmake_path(SET CMAKE_CXX_COMPILER ${MyBaseDir}/../myBuildroot/buildroot/output/host/bin/i586-buildroot-linux-gnu-g++ NORMALIZE)
+# set(CMAKE_CXX_COMPILER ${MyBaseDir}/../myBuildroot/buildroot/output/host/bin/i586-buildroot-linux-gnu-g++)
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I${TARGET_SYSROOT}/usr/include") #no effect with/without: -mno-sse2
 set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS}") #no effect with/without: -mno-sse2
@@ -37,13 +39,14 @@ set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 set(CMAKE_BUILD_RPATH ${TARGET_SYSROOT})
 
-#Qt minimal no-signal-slot building
+#set(CMAKE_GENERATOR "Ninja")
 #can't off this set(FEATURE_pcre2 OFF)
 set(FEATURE_opengl OFF)
 set(FEATURE_ico OFF)
 set(FEATURE_xcb OFF)
 set(FEATURE_xcb_xlib OFF)
 set(QT_FEATURE_network OFF)
+set(QT_FEATURE_sctp OFF) # sudo apt install libsctp-dev https://stackoverflow.com/questions/53137250/netinet-sctp-h-no-such-file-or-directory
 set(QT_FEATURE_widgets OFF)
 set(QT_FEATURE_dbus OFF)
 set(QT_FEATURE_dbus_linked OFF)
@@ -61,7 +64,7 @@ set(FEATURE_pkg_config OFF)
 set(FEATURE_testlib OFF)
 set(FEATURE_translation OFF)
 set(FEATURE_xml OFF)
-set(FEATURE_backtrace OFF)
+set(FEATURE_backtrace ON)
 #new new
 set(FEATURE_animation OFF)
 set(FEATURE_intelcet OFF)
@@ -101,7 +104,7 @@ set(FEATURE_avx512vl OFF)
 
 #set(FEATURE_cxx2b ON)
 #set(FEATURE_std_atomic64 OFF)
-set(BUILD_WITH_PCH OFF)
+set(BUILD_WITH_PCH ON)
 #set(FEATURE_cborstreamreader OFF)
 #set(FEATURE_cborstreamwriter OFF)
 #set(FEATURE_clock_gettime OFF)
