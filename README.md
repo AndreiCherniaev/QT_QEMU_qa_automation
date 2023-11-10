@@ -24,7 +24,7 @@ This steps use Qt mirror on github because of fast downloading from github. But 
 ## Before start
 Check that you are in dir QT_QEMU_qa_automation/
 ```
-MyBaseDir=${PWD}
+MyQtBaseDir=${PWD}
 ```
 
 ## Make ssh key
@@ -45,13 +45,13 @@ make -C buildroot
 ## Prepare Qt
 Qt's folders must be clear: remove and create its again
 ```
-rm -Rf build_host/ && rm -Rf build_artifacts_host/ rm -Rf build_cross/ rm -Rf build_artifacts_cross/
-mkdir build_host build_artifacts_host build_cross build_artifacts_cross
+rm -Rf ${MyQtBaseDir}/build_host/ ${MyQtBaseDir}/build_artifacts_host/ && mkdir ${MyQtBaseDir}/build_host ${MyQtBaseDir}/build_artifacts_host
+rm -Rf ${MyQtBaseDir}/build_cross/ ${MyQtBaseDir}/build_artifacts_cross/ && mkdir ${MyQtBaseDir}/build_cross ${MyQtBaseDir}/build_artifacts_cross
 ```
 
-If you want test another Qr version, be at MyBaseDir and do: 
+If you want test another Qr version do 
 ```
-rm -Rf ${MyBaseDir}/qt5/
+rm -Rf ${MyQtBaseDir}/qt5/
 ```
 Let's clone Qt
 ```
@@ -63,7 +63,7 @@ perl init-repository --module-subset=qtbase
 
 Let's configure Qt for for host (laptop)
 ```
-cd ../build_host
+cd ${MyQtBaseDir}/build_host
 ../qt5/configure -release -static -opensource -nomake examples -nomake tests -confirm-license -no-pch -no-xcb -no-xcb-xlib -no-gtk -skip webengine -skip qtwayland -skip qtdoc -skip qtgraphicaleffects -skip qtqa -skip qttranslations -skip qtvirtualkeyboard -skip qtquicktimeline -skip qtquick3d -skip qt3d -skip qtrepotools -skip qttools -skip qtimageformats -skip qtnetworkauth -skip qtwebsockets -skip qtactiveqt -skip qtmacextras -skip winextras -skip qtmultimedia -skip qtgamepad -skip qtserialbus -skip qtspeech -skip qtsensors -skip qtcharts -skip qtlocation -no-ssl -platform linux-g++-32 -prefix ../build_artifacts_host -- -DCMAKE_TOOLCHAIN_FILE=../toolchain_host.cmake
 cmake --build . --parallel
 cmake --install .
@@ -71,13 +71,13 @@ cmake --install .
 
 Let's configure Qt for for target (on-board computer)
 ```
-cd ../build_cross/
+cd ${MyQtBaseDir}/build_cross/
 ../qt5/configure -platform linux-g++-32 -- -GNinja -DCMAKE_BUILD_TYPE=Release -DQT_BUILD_EXAMPLES=OFF -DQT_BUILD_TESTS=OFF -DCMAKE_STAGING_PREFIX=${PWD}/../build_artifacts_cross -DCMAKE_TOOLCHAIN_FILE=../toolchain_cross.cmake
 cmake --build . --parallel
 cmake --install .
 ```
 
-Back to MyBaseDir (QT_QEMU_qa_automation) 
+Back to MyQtBaseDir (QT_QEMU_qa_automation) 
 cd ..
 
 Prepare folder to build test Qt hello world application
@@ -91,7 +91,7 @@ cmake --build test_qt_helloworld/build-test_qt_helloworld/ --parallel
 ```
 
 ## Run QEMU
-I use -cpu pentium3 to set no-sse2 machine. Please use Second console for it. Run from MyBaseDir folder
+I use -cpu pentium3 to set no-sse2 machine. Please use Second console for it. Run from MyQtBaseDir folder
 ```
 qemu-system-i386 -M pc -cpu pentium3 -kernel buildroot/output/images/bzImage -drive file=buildroot/output/images/rootfs.ext2,if=virtio,format=raw -append "rootwait root=/dev/vda console=tty1 console=ttyS0"  -nographic -net nic,model=virtio -net user,hostfwd=tcp::5555-:22
 ```
@@ -102,7 +102,7 @@ to qemu machine to folder /root
 rsync -rvz -e 'ssh -p 5555 -i my_external_tree/board/my_company/my_board/qemu_ssh_key/my_qemu_ssh_key' --progress test_qt_helloworld/build-test_qt_helloworld/test root@localhost:/root/
 ```
 
-To connect be at MyBaseDir (QT_QEMU_qa_automation/) folder and use
+To connect be at MyQtBaseDir (QT_QEMU_qa_automation/) folder and use
 ```
 ssh root@localhost -p 5555 -i my_external_tree/board/my_company/my_board/qemu_ssh_key/my_qemu_ssh_key
 ```
