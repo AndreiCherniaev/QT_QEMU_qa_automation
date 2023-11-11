@@ -72,8 +72,7 @@ rm -Rf ${MyQtBaseDir}/qt5/
 ```
 Let's clone Qt
 ```
-git clone https://github.com/qt/qt5 qt5
-cd qt5
+git clone https://github.com/qt/qt5 qt5 && cd qt5
 git checkout 6.4.2
 perl init-repository --module-subset=qtbase
 ```
@@ -114,19 +113,19 @@ Now we have executable file progs/test_qt_helloworld/build-test_qt_helloworld/te
 ## Run QEMU
 I use -cpu pentium3 to set no-sse2 machine. Please use Second console for it. Run from MyQtBaseDir folder
 ```
-qemu-system-i386 -M pc -cpu pentium3 -kernel "$MyBaseDir/buildroot/output/images/bzImage" -drive file="$MyBaseDir/buildroot/output/images/rootfs.ext2",if=virtio,format=raw -append "rootwait root=/dev/vda console=tty1 console=ttyS0"  -nographic -net nic,model=virtio -net user,hostfwd=tcp::5555-:22
+qemu-system-i386 -M pc -cpu pentium3 -kernel "$MyBaseDir/myBuildroot/buildroot/output/images/bzImage" -drive file="$MyBaseDir/myBuildroot/buildroot/output/images/rootfs.ext2",if=virtio,format=raw -append "rootwait root=/dev/vda console=tty1 console=ttyS0"  -nographic -net nic,model=virtio -net user,hostfwd=tcp::5555-:22
 ```
 
 ## Upload Qt hello world 
 to qemu machine to folder /root
 ```
-options=(-rvz -e "ssh -p 5555 -i "$MyBaseDir/my_external_tree/board/my_company/my_board/qemu_ssh_key/my_qemu_ssh_key" -o StrictHostKeyChecking=no" --progress)
+options=(-rvz -e "ssh -p 5555 -i "$MyBaseDir/myBuildroot/my_external_tree/board/my_company/my_board/qemu_ssh_key/my_qemu_ssh_key" -o StrictHostKeyChecking=no" --progress)
 rsync "${options[@]}" "$MyBaseDir/progs/test_qt_helloworld/build-test_qt_helloworld/test" root@localhost:/root/
 ```
 
 To connect be at MyBaseDir (QT_QEMU_qa_automation/) folder and use
 ```
-ssh root@localhost -p 5555 -i "$MyBaseDir/my_external_tree/board/my_company/my_board/qemu_ssh_key/my_qemu_ssh_key"
+ssh root@localhost -p 5555 -i "$MyBaseDir/myBuildroot/my_external_tree/board/my_company/my_board/qemu_ssh_key/my_qemu_ssh_key" -o StrictHostKeyChecking=no
 ```
 
 Now we can run app on qemu (!) machine (after ssh login)
