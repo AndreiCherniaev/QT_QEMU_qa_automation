@@ -5,6 +5,7 @@ Make buildroot i586 distro, run on QEMU. Compiling Qt, cross-compiling Qt, deplo
 Simple way
 ```
 git clone --remote-submodules --recurse-submodules -j8 https://github.com/AndreiCherniaev/QT_QEMU_qa_automation.git
+cd QT_QEMU_qa_automation/
 ```
 Or several-steps way
 ```
@@ -66,7 +67,7 @@ rm -Rf ${MyQtBaseDir}/build_host/ ${MyQtBaseDir}/build_artifacts_host/ && mkdir 
 rm -Rf ${MyQtBaseDir}/build_cross/ ${MyQtBaseDir}/build_artifacts_cross/ && mkdir ${MyQtBaseDir}/build_cross ${MyQtBaseDir}/build_artifacts_cross
 ```
 
-If you want test another Qr version do 
+If you want test another Qt version do 
 ```
 rm -Rf ${MyQtBaseDir}/qt5/
 ```
