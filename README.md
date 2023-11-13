@@ -46,8 +46,8 @@ Copy pub key to QEMU image
 mkdir -p "$MyBaseDir/myBuildroot/my_external_tree/board/my_company/my_board/fs-overlay/root/.ssh" && cat "$MyBaseDir/myBuildroot/my_external_tree/board/my_company/my_board/qemu_ssh_key/my_qemu_ssh_key.pub" >> "$MyBaseDir/myBuildroot/my_external_tree/board/my_company/my_board/fs-overlay/root/.ssh/authorized_keys"
 ```
 
-## Make new Linux image
-My config qemu_x86_ssh_defconfig is based on standart buildroot's config [qemu_x86_defconfig](https://github.com/buildroot/buildroot/blob/c0799123742eb9b60ca109c0ea0cb1728c22bf0a/configs/qemu_x86_defconfig)
+## Make target OS image
+Time to make target operation system. I use Buildroot to make new Linux-based operation system. My config qemu_x86_ssh_defconfig is based on standart buildroot's config [qemu_x86_defconfig](https://github.com/buildroot/buildroot/blob/c0799123742eb9b60ca109c0ea0cb1728c22bf0a/configs/qemu_x86_defconfig)
 ```
 make clean -C "$MyBaseDir/myBuildroot/buildroot"
 make BR2_EXTERNAL="$MyBaseDir/myBuildroot/my_external_tree" -C "$MyBaseDir/myBuildroot/buildroot" qemu_x86_ssh_defconfig
