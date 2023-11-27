@@ -7,7 +7,7 @@ Simple way
 git clone --remote-submodules --recurse-submodules -j8 https://github.com/AndreiCherniaev/QT_QEMU_qa_automation.git
 cd QT_QEMU_qa_automation/
 ```
-Or several-steps way
+Or in several steps
 ```
 git clone  https://github.com/AndreiCherniaev/QT_QEMU_qa_automation.git
 cd QT_QEMU_qa_automation/
